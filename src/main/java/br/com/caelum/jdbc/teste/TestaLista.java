@@ -11,11 +11,11 @@ public class TestaLista {
         List<Contato> contatos = dao.getLista();
 
         for(Contato contato:contatos){
-            System.out.println("Nome: "+ contato.getNome() + "\n" +
+            System.out.println("Id: " + contato.getId() + "\n" +
+                    "Nome: "+ contato.getNome() + "\n" +
                     "Email: "+ contato.getEmail() + "\n" +
                     "Endereço: "+ contato.getEndereco() + "\n" +
                     "Data de Nascimento: "+ contato.getDataNascimento().getTime());
         }
-        //System.out.println(dao.pesquisar(0L));
     }
 }
