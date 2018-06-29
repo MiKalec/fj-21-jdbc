@@ -16,6 +16,6 @@ public class TestaLista {
                     "Endereço: "+ contato.getEndereco() + "\n" +
                     "Data de Nascimento: "+ contato.getDataNascimento().getTime());
         }
-        System.out.println(dao.pesquisar(0));
+        //System.out.println(dao.pesquisar(0L));
     }
 }

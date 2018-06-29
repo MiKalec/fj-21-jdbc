@@ -8,6 +8,7 @@ import java.util.Calendar;
 public class TestaInsere {
     public static void main(String[]args){
         Contato contato = new Contato();
+        contato.setId(12355124545420L);
         contato.setNome("Caelum");
         contato.setEmail("contato@caelum.com.br");
         contato.setEndereco("R. Vergueiro 3185 cj59");

@@ -62,8 +62,58 @@ public class ContatoDao {
         }
     }
 
-    public Object pesquisar(Integer id){
-        List<Contato> contatos = getLista();
-        return contatos.get(id);
+    public void altera(Contato contato){
+        String sql = "update contatos set nome=?, email=?," +
+                "endereco=?, dataNascimento=? where id=?";
+
+        try{
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.setString(1, contato.getNome());
+            statement.setString(2, contato.getEmail());
+            statement.setString(3, contato.getEndereco());
+            statement.setDate(4, new Date(contato.getDataNascimento().getTimeInMillis()));
+            statement.setLong(5, contato.getId());
+            statement.execute();
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void remove(Contato contato){
+        try{
+            PreparedStatement statement = this.connection.prepareStatement("delete from contatos where id=?");
+            statement.setLong(1, contato.getId());
+            statement.execute();
+            statement.close();
+            System.out.println("Contato removido");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public Object pesquisar(Long id){
+        String sql = "select * from contatos where id=?";
+
+        try{
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            Contato contato = new Contato();
+            contato.setId(resultSet.getLong("id"));
+            contato.setNome(resultSet.getString("nome"));
+            contato.setEmail(resultSet.getString("email"));
+            contato.setEndereco(resultSet.getString("endereco"));
+
+            Calendar data = Calendar.getInstance();
+            data.setTime(resultSet.getDate("dataNascimento"));
+            contato.setDataNascimento(data);
+            statement.close();
+            return contato;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
