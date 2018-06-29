@@ -1,7 +1,6 @@
 package br.com.caelum.jdbc.dao;
 
 import br.com.caelum.jdbc.ConnectionFactory;
-import br.com.caelum.jdbc.modelo.Contato;
 import br.com.caelum.jdbc.modelo.Funcionario;
 
 import java.sql.Connection;
