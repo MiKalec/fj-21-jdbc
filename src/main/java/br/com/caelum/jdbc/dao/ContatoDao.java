@@ -3,10 +3,10 @@ package br.com.caelum.jdbc.dao;
 import br.com.caelum.jdbc.ConnectionFactory;
 import br.com.caelum.jdbc.modelo.Contato;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class ContatoDao {
     private Connection connection;
@@ -33,5 +33,37 @@ public class ContatoDao {
         }catch(SQLException e){
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Contato> getLista(){
+        try{
+            List<Contato> contatos = new ArrayList<Contato>();
+            PreparedStatement statement = this.connection.prepareStatement("select * from contatos");
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                Contato contato = new Contato();
+                contato.setId(resultSet.getLong("id"));
+                contato.setNome(resultSet.getString("nome"));
+                contato.setEmail(resultSet.getString("email"));
+                contato.setEndereco(resultSet.getString("endereco"));
+
+                Calendar data = Calendar.getInstance();
+                data.setTime(resultSet.getDate("dataNascimento"));
+                contato.setDataNascimento(data);
+
+                contatos.add(contato);
+            }
+            resultSet.close();
+            statement.close();
+            return contatos;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Object pesquisar(Integer id){
+        List<Contato> contatos = getLista();
+        return contatos.get(id);
     }
 }
